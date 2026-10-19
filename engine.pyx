@@ -41,8 +41,8 @@ cdef void match_buy_order(Order* incoming):
             incoming.quantity -= fill_qty
             sell_book[i].quantity -= fill_qty
 
-            printf("[TRADE MATCH] Buy #%llu matched with Sell #%llu | Qty: %u @ $%.2f\n",
-                   incoming.order_id, sell_book[i].order_id, fill_qty, sell_book[i].price)
+            #printf("[TRADE MATCH] Buy #%llu matched with Sell #%llu | Qty: %u @ $%.2f\n",
+                   #incoming.order_id, sell_book[i].order_id, fill_qty, sell_book[i].price)
 
             # If sell order is fully filled, compact the array
             if sell_book[i].quantity == 0:
@@ -73,8 +73,8 @@ cdef void match_sell_order(Order* incoming):
             incoming.quantity -= fill_qty
             buy_book[i].quantity -= fill_qty
 
-            printf("[TRADE MATCH] Sell #%llu matched with Buy #%llu | Qty: %u @ $%.2f\n",
-                   incoming.order_id, buy_book[i].order_id, fill_qty, buy_book[i].price)
+            #printf("[TRADE MATCH] Sell #%llu matched with Buy #%llu | Qty: %u @ $%.2f\n",
+                   #incoming.order_id, buy_book[i].order_id, fill_qty, buy_book[i].price)
 
             # If buy order is fully filled, compact the array
             if buy_book[i].quantity == 0:
