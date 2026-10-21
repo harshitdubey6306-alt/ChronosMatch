@@ -1,30 +1,45 @@
 import mmap
 import struct
+import time
+import random
 import os
 
-# 1. Define what our trade order looks like in raw C-bytes
-# 'Q' = Order ID (8 bytes), 'd' = Price (8 bytes), 'I' = Quantity (4 bytes)
+# Pre-allocate a 10MB memory-mapped file
+FILE_SIZE = 10 * 1024 * 1024
 order_format = 'Q d I'
 order_size = struct.calcsize(order_format)
 
-# 2. Create an empty file to act as our shared memory space
-# We will make it big enough to hold exactly 1000 orders
-buffer_size = order_size * 1000
-with open("order_buffer.dat", "wb") as f:
-    f.write(b'\x00' * buffer_size)
+def run_writer():
+    print("Initializing zero-copy ring buffer...")
+    with open("live_bus.dat", "wb") as f:
+        f.write(b'\x00' * FILE_SIZE)
+        
+    print("Starting live order firehose! Press Ctrl+C to stop.")
+    with open("live_bus.dat", "r+b") as f:
+        mm = mmap.mmap(f.fileno(), 0)
+        order_id = 1
+        offset = 0
+        
+        try:
+            while True:
+                # Generate a random trade
+                price = round(random.uniform(90.0, 210.0), 2)
+                qty = random.randint(1, 100)
+                
+                # Pack and write to the exact memory offset
+                raw_bytes = struct.pack(order_format, order_id, price, qty)
+                mm.seek(offset)
+                mm.write(raw_bytes)
+                
+                order_id += 1
+                # Loop back to the start of the file if we hit the 10MB limit
+                offset = (offset + order_size) % FILE_SIZE
+                
+                # A micro-sleep to prevent completely locking up your Windows UI
+                time.sleep(0.001) 
+        except KeyboardInterrupt:
+            print("\nFirehose stopped.")
+            mm.close()
 
-# 3. Open the file and map it directly into RAM
-with open("order_buffer.dat", "r+b") as f:
-    # mmap.mmap(file_descriptor, length)
-    mm = mmap.mmap(f.fileno(), 0)
-
-    # 4. Pack a fake trade order (ID: 1, Price: 150.50, Quantity: 100)
-    raw_order_bytes = struct.pack(order_format, 1, 150.50, 100)
-
-    # 5. Write the raw bytes into the memory map
-    mm.write(raw_order_bytes)
-    
-    print("Order successfully written to RAM!")
-    
-    # Close the memory map
-    mm.close()
+if __name__ == "__main__":
+    run_writer()
