@@ -1,3 +1,11 @@
+"""
+ChronosMatch Exchange Feed Simulator
+This module acts as a continuous live data firehose.
+It generates random limit orders and writes them directly 
+into a shared memory-mapped file (mmap) as raw C-struct bytes,
+simulating a high-frequency trading exchange feed.
+"""
+
 import mmap
 import struct
 import time
