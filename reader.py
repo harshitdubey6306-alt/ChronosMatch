@@ -1,3 +1,10 @@
+"""
+ChronosMatch Zero-Copy Reader
+This module continuously polls the shared memory-mapped file (mmap)
+to extract incoming raw C-struct limit orders. It immediately forwards 
+these binary bytes to the Cython matching engine, bypassing the Python GIL.
+"""
+
 import mmap
 import struct
 import engine
