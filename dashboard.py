@@ -12,6 +12,12 @@ order_size = struct.calcsize(order_format)
 FILE_SIZE = 10 * 1024 * 1024
 
 def generate_ui(order_count, best_bid, best_ask, elapsed_time):
+    """
+    Generates a live Rich terminal table summarizing engine metrics.
+    Takes the total orders processed, the current best bid and ask prices,
+    and the elapsed time to calculate and display real-time throughput.
+    """
+    
     table = Table(box=box.SIMPLE_HEAVY, expand=True)
     table.add_column("System Metric", style="cyan", justify="left")
     table.add_column("Live Value", style="magenta", justify="right")
