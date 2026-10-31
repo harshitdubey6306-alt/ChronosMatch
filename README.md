@@ -10,3 +10,9 @@ ChronosMatch is a low-latency High-Frequency Trading (HFT) matching engine built
 
 ## Benchmarks
 * **Throughput:** Processed 100,000 orders in 0.39 seconds.
+
+## Execution Instructions
+To run the ChronosMatch engine in real-time:
+1. Open two separate terminal windows.
+2. In Terminal 1, execute `python writer.py` to initialize the zero-copy mmap data firehose.
+3. In Terminal 2, execute `python dashboard.py` to start the Cython matching engine and live Rich UI.
