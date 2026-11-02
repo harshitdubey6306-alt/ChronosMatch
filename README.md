@@ -16,3 +16,7 @@ To run the ChronosMatch engine in real-time:
 1. Open two separate terminal windows.
 2. In Terminal 1, execute `python writer.py` to initialize the zero-copy mmap data firehose.
 3. In Terminal 2, execute `python dashboard.py` to start the Cython matching engine and live Rich UI.
+
+## Troubleshooting
+* **Missing Data File:** If the dashboard throws a `FileNotFoundError`, ensure you start `writer.py` first so it can allocate the `live_bus.dat` memory map file before the engine tries to read it.
+* **UI Glitches:** Ensure your terminal window is fully maximized to prevent the `Rich` table rendering from wrapping or distorting during high-speed updates.
