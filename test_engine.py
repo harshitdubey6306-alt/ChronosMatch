@@ -1,3 +1,9 @@
+"""
+ChronosMatch Unit Tests
+This module is reserved for writing automated test cases for the Cython matching engine.
+It will eventually contain pytest fixtures to validate order book state, price-time priority, 
+and memory-mapping boundary conditions.
+"""
 import engine
 
 print("--- Testing ChronosMatch Order Matching ---")
