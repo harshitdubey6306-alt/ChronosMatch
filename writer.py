@@ -1,4 +1,11 @@
 """
+ChronosMatch Data Firehose Generator
+This module simulates a high-frequency trading exchange feed.
+It continuously generates limit orders and packs them as raw C-struct 
+bytes directly into the shared memory-mapped (mmap) ring buffer.
+"""
+
+"""
 ChronosMatch Exchange Feed Simulator
 This module acts as a continuous live data firehose.
 It generates random limit orders and writes them directly 
