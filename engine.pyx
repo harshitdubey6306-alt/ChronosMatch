@@ -1,3 +1,11 @@
+"""
+ChronosMatch Core Matching Engine
+This Cython module implements a price-time priority limit order book.
+It utilizes statically typed C-arrays to achieve sub-microsecond 
+execution speeds, completely bypassing Python's dynamic typing overhead.
+"""
+
+
 # cython: language_level=3
 # engine.pyx
 
