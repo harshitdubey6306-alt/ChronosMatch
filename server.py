@@ -79,12 +79,12 @@ async def read_mmap_and_broadcast():
                             # 2. Queue for historical persistence
                             trade_batch.append(payload)
                             
-                            # 3. Fire-and-forget to Supabase in a background thread
-                            if len(trade_batch) >= 50:
+                            # 3. Fire-and-forget to Supabase in a background thread (Increased to 500)
+                            if len(trade_batch) >= 500:
                                 # Create a copy of the batch to send to the thread
                                 batch_copy = list(trade_batch)
                                 asyncio.create_task(asyncio.to_thread(push_to_supabase, batch_copy))
-                                trade_batch = [] # Instantly reset queue for the next 50 trades
+                                trade_batch = [] # Instantly reset queue for the next 500 trades
                             
                             last_order_id = order_id
                             
